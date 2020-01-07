@@ -1,4 +1,3 @@
-const config = require('./config');
 const Discord = require('discord.js');
 const request = require('request');
 
@@ -31,19 +30,19 @@ client.on('disconnect', message => {
 });
 
 client.on('message', message => {
-  if (config.READING_CHANNELS.includes(message.channel.id)) {
+  if (process.env.READING_CHANNELS.includes(message.channel.id)) {
     let content = message.cleanContent;
     message.attachments.forEach(attachment => {
       content += '\n' + attachment.proxyURL;
     });
 
-    config.WRITING_CHANNELS.forEach(channel => {
+    process.env.WRITING_CHANNELS.forEach(channel => {
       client.channels.get(channel).send(content).catch(err => {
         console.error(err);
       });
     });
 
-    config.WEBHOOKS.forEach(webhook => {
+    process.env.WEBHOOKS.forEach(webhook => {
       request({
         url: webhook,
         method: 'POST',
@@ -59,4 +58,4 @@ client.on('message', message => {
   }
 });
 
-client.login(config.TOKEN);
+client.login(process.env.TOKEN);
