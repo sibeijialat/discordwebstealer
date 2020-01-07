@@ -36,7 +36,7 @@ client.on('message', message => {
       content += '\n' + attachment.proxyURL;
     });
 
-    process.env.WRITING_CHANNELS.forEach(channel => {
+    process.env.WRITING_CHANNELS.includes(channel => {
       client.channels.get(channel).send(content).catch(err => {
         console.error(err);
       });
