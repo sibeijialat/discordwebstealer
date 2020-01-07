@@ -42,7 +42,7 @@ client.on('message', message => {
       });
     });
 
-    process.env.WEBHOOKS.forEach(webhook => {
+    process.env.WEBHOOKS.includes(webhook => {
       request({
         url: webhook,
         method: 'POST',
